@@ -16,6 +16,10 @@ SET ETaggingEnabled             true
 # Remove the following CORS setting if you don't wish to be able to use the data browser from the FatFractal Console
 SET CORS https://system.fatfractal.com
 
+
+# TEMP: Permissions
+PERMIT read:system.Administrators write:system.SuperUsers ON /RegistrationRequests
+
 #
 # Object Types
 #
@@ -31,9 +35,11 @@ CREATE OBJECTTYPE STCustomer(user REFERENCE /FFUser, masterFit REFERENCE /STFitP
 # orders
 CREATE OBJECTTYPE STOrder(customer REFERENCE /STCustomers, status STRING, orderItems GRABBAG /STOrderItems)
 CREATE OBJECTTYPE STOrderItem(order REFERENCE /STOrders, fitProfile REFERENCE /STFitProfile)
+CREATE OBJECTTYPE STOrderIteration
 
 # fit profiles
 # display reference
+CREATE OBJECTTYPE STMasterFit(shoulderLength NUMERIC, shoulderType STRING)
 CREATE OBJECTTYPE STSpecFit(originalProfile REFERENCE /STFitProfile, qcFit REFERENCE /STFitProfile, shoulderType STRING, shoulderLength NUMERIC, shoulderLengthDelta NUMERIC, isApproved BOOLEAN)
 # actual reference (only numerical measurements differ)
 CREATE OBJECTTYPE STQCFit(shoulderType STRING, shoulderLength NUMERIC, shoulderLengthDelta NUMERIC)
@@ -47,7 +53,7 @@ CREATE COLLECTION /FFNotificationID OBJECTTYPE FFNotificationID
 
 # ST Collections
 CREATE COLLECTION /STCustomers OBJECTTYPE STCustomer
-CREATE COLLECTION /STFitProfile OBJECTTYPE STSpecFit, STQCFit
+CREATE COLLECTION /STFitProfile OBJECTTYPE STSpecFit, STQCFit, STMasterFit
 CREATE COLLECTION /STOrders OBJECTTYPE STOrder
 CREATE COLLECTION /STOrderItems OBJECTTYPE STOrderItem
 CREATE COLLECTION /STOrderIterations OBJECTTYPE STOrderIteration
