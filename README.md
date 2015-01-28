@@ -1,4 +1,1 @@
-snaptailor
-==========
 
-Snap Tailor webapp
